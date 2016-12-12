@@ -84,6 +84,10 @@ def get_data(data_type, rank, dims, noise='n', sigma=1e-3, seed=1):
     Output:
     M : matrix
     """ 
-    M = get_matrix(rank, dims, noise, sigma, seed)
+    if data_type == 'synthetic':
+        M = get_matrix(rank, dims, noise, sigma, seed)
+    else:
+        print 'Not yet!'
+        return -1
     
     return M
