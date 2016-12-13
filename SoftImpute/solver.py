@@ -186,12 +186,16 @@ class Solver(object):
         """
         return [self.single_imputation(X) for _ in range(self.n_imputations)]
 
-    def complete(self, X):
+    def complete(self, Omega, m, dims):
         """
         Expects 2d float matrix with NaN entries signifying missing values
 
         Returns completed matrix without any NaNs.
         """
+        X = np.ones(dims)*np.nan
+        for i in range(Omega.shape[0]):
+            X[Omega[i, 0], Omega[i, 1]] = m[i]
+
         imputations = self.multiple_imputations(X)
         if len(imputations) == 1:
             return imputations[0]
