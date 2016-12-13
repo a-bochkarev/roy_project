@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.sparse.linalg import svds
+from data import *
+from errors import *
 
 def SVP(Omega, vec_data, dims, k=5, tol=1e-3, maxtol=1000, tau=7.5, n_iter=100, verbose=False):
     X = np.zeros((dims[0], dims[1]))
