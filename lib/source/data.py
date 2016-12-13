@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.sparse import csr_matrix
 
 def sampling_operator(nsamp, dims, seed=1):
     """
@@ -68,19 +69,23 @@ def get_sampling_vector(M, omega):
         
     return data
 
-def reconstruct_matrix(vec, omega, dims):
+def reconstruct_matrix(vec, omega, dims, sparse_type='n'):
     """
     Reconstruct sampling matrix from vector
     Input:
     vec : vector with sampling elements
     omega : array of sampling indices
     dims : size of the matrix
+    sparse_type : 'y' or 'n' (default 'n')
     Output:
     data: array like with sampling elements
     """
-    data = np.zeros(dims)
-    for i in xrange(omega.shape[0]):
-        data[omega[i, 0], omega[i, 1]] = vec[i]
+    if sparse_type == 'n':
+        data = np.zeros(dims)
+        for i in xrange(omega.shape[0]):
+            data[omega[i, 0], omega[i, 1]] = vec[i]
+    elif sparse_type == 'y':
+        data = csr_matrix((vec, omega.T), dims)
         
     return data
 
