@@ -85,10 +85,7 @@ class SoftImpute(Solver):
         difference = old_missing_values - new_missing_values
         ssd = np.sum(difference ** 2)
         old_norm = np.sqrt((old_missing_values ** 2).sum())
-        if old_norm > 1e-8:
-            return (np.sqrt(ssd) / old_norm) < self.convergence_threshold
-        else:
-            return False
+        return np.sqrt(ssd) < self.convergence_threshold * old_norm
 
     def _svd_step(self, X, shrinkage_value, max_rank=None):
         """
