@@ -1,5 +1,22 @@
 import numpy as np
-import data
+from data import *
+
+def Complete(Omega, m, dims, method):
+    """
+    Matrix completion by given methods
+    Input:
+    Omega : array of sampling indices
+    m : array like with sampling elements
+    method : str with the name of completion method
+    dims : size of the matrix
+    Output:
+    X : completed matrix
+    rank - rank of X
+    """
+    if method == 'SVT':
+        return SVT(Omega, m, dims)
+    else:
+        print 'This method is not implemented'
 
 def SVT(omega, data, dims, max_iter=1e4, tol=1e-4):
     data = reconstruct_matrix(data, omega, dims)
