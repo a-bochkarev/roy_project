@@ -13,18 +13,23 @@ def SVT(omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
     Y = k0 * delta * mat_data
     r = 0
     num_iter = 0
+    min_size = np.min(np.array(dims)) - 1
     while num_iter < max_iter:
-        s = r + 1
+        s = np.min([r + 1, min_size])
         sigma = tau + 1
-        while sigma > tau:
+        rpt_inside = 0
+        while (sigma > tau) & (rpt_inside <= 1):
             U, S, V = svds(Y, s)
+            if np.sum(S == 0) > 0:
+                break
             sigma = S[0]
-            s += l
+            s = np.min([s+l, min_size])
+            if s == min_size:
+                rpt_inside += 1
         r = np.sum(S > tau)
-        U = U[:, -r:].copy()
-        S = S[-r:].copy()
-        S -= tau
-        V = V[-r:, :].copy()
+        U = U[:, -r:]
+        S = S[-r:] - tau
+        V = V[-r:, :]
         if sparse_type == 'n':
             X = U.dot(np.diag(S).dot(V))
         elif sparse_type == 'y':
