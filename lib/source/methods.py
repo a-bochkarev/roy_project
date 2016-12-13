@@ -1,7 +1,12 @@
 import numpy as np
+import sys
 from data import *
 
-def Complete(Omega, m, dims, method):
+sys.path.append('./../../SoftImpute/')
+
+from SoftImpute import SoftImpute, BiScaler
+
+def Complete(Omega, m, r, dims, method):
     """
     Matrix completion by given methods
     Input:
@@ -9,12 +14,15 @@ def Complete(Omega, m, dims, method):
     m : array like with sampling elements
     method : str with the name of completion method
     dims : size of the matrix
+    r : max rank
     Output:
     X : completed matrix
     rank - rank of X
     """
     if method == 'SVT':
         return SVT(Omega, m, dims)
+    if method == 'SoftImpute':
+    	return SI(Omega, m, r, dims)
     else:
         print 'This method is not implemented'
 
@@ -55,3 +63,12 @@ def SVT(omega, data, dims, max_iter=1e4, tol=1e-4):
         num_iter += 1
     
     return X_opt
+
+def SI(Omega, m, r, dims):
+	solver = SoftImpute(max_rank=r, convergence_threshold=1e-3, verbose=False, max_iters=100)
+	X_incomplete = np.ones(dims)*np.nan
+	for i in range(Omega.shape[0]):
+		X_incomplete[Omega[i][0], Omega[i][1]] = m[i]
+
+	X_filled = solver.complete(X_incomplete)
+	return X_filled
