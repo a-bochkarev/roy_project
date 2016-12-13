@@ -32,7 +32,7 @@ def get_completion(Omega, m, r, dims, method,
         return SVT(Omega, m, dims, max_iter, tol, sparse_type)
     if method == 'SoftImpute':
         solver = SoftImpute(max_rank=r, convergence_threshold=tol, verbose=False, 
-            max_iters=max_iter, normalizer=BiScaler(verbose=False))
+            max_iters=max_iter)
         return solver.complete(Omega, m, dims)
     if method == 'SVP':
         return SVP(Omega, m, dims, n_iter=max_iter, tol=tol)
