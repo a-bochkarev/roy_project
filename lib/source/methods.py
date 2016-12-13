@@ -35,6 +35,6 @@ def get_completion(Omega, m, r, dims, method,
             max_iters=max_iter)
         return solver.complete(Omega, m, dims)
     if method == 'SVP':
-        return SVP(Omega, m, dims, n_iter=max_iter, tol=tol)
+        return SVP(Omega=Omega, vec_data=m, dims=dims, k=r, n_iter=max_iter, tol=tol)
     else:
         print 'This method is not implemented'
