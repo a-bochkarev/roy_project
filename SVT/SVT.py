@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.sparse import csr_matrix, csc_matrix
 from scipy.sparse.linalg import svds, norm
+from data import *
 
 def SVT(omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
     delta = 1.2 * np.prod(dims) / omega.shape[0]
