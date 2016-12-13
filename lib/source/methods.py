@@ -2,11 +2,12 @@ import numpy as np
 import sys
 from scipy.sparse import csr_matrix, csc_matrix
 from scipy.sparse.linalg import svds, norm, eigs
-from data import *
 
-sys.path.append('./../../SoftImpute/')
-sys.path.append('./../../SVT/')
-sys.path.append('./../../SVP/')
+sys.path.append('./SoftImpute/')
+sys.path.append('./SVT/')
+sys.path.append('./SVP/')
+sys.path.append('./lib/source/')
+from data import *
 from SVP import *
 from SVT import *
 
@@ -37,12 +38,3 @@ def get_completion(Omega, m, r, dims, method,
         return SVP(Omega, m, dims, n_iter=max_iter, tol=tol)
     else:
         print 'This method is not implemented'
-
-def SI(Omega, m, r, dims, max_iter=1e4, tol=1e-4):
-    solver = SoftImpute(max_rank=r, convergence_threshold=tol, verbose=False, max_iters=max_iter)
-    X_incomplete = np.ones(dims)*np.nan
-    for i in range(Omega.shape[0]):
-        X_incomplete[Omega[i][0], Omega[i][1]] = m[i]
-
-    X_filled = solver.complete(X_incomplete)
-    return X_filled
