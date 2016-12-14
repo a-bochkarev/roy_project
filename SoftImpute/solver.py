@@ -169,7 +169,7 @@ class Solver(object):
                     self.__class__.__name__,
                     type(X_filled)))
 
-        X_result = self.solve(X_filled, missing_mask)
+        X_result = self.solve(X_filled, missing_mask, X_original)
         if not isinstance(X_result, np.ndarray):
             raise TypeError(
                 "Expected %s.solve() to return NumPy array but got %s" % (

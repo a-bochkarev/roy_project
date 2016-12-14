@@ -78,14 +78,21 @@ class SoftImpute(Solver):
         self.n_power_iterations = n_power_iterations
         self.verbose = verbose
 
-    def _converged(self, X_old, X_new, missing_mask):
+    def _converged(self, X_old, X_new, missing_mask, X_original=None):
         # check for convergence
-        old_missing_values = X_old[missing_mask]
-        new_missing_values = X_new[missing_mask]
+        #old_missing_values = X_old[missing_mask]
+        #new_missing_values = X_new[missing_mask]
+        #difference = old_missing_values - new_missing_values
+        #ssd = np.sum(difference ** 2)
+        #old_norm = np.sqrt((old_missing_values ** 2).sum())
+        #return np.sqrt(ssd) < self.convergence_threshold * old_norm
+        new_observed_values = X_new[~missing_mask]
+        orig_observed_values = X_original[~missing_mask]
         difference = old_missing_values - new_missing_values
         ssd = np.sum(difference ** 2)
-        old_norm = np.sqrt((old_missing_values ** 2).sum())
-        return np.sqrt(ssd) < self.convergence_threshold * old_norm
+        orig_norm = np.sqrt((orig_observed_values ** 2).sum())
+        return np.sqrt(ssd) < self.convergence_threshold * orig_norm
+
 
     def _svd_step(self, X, shrinkage_value, max_rank=None):
         """
@@ -121,7 +128,7 @@ class SoftImpute(Solver):
             n_iter=5)
         return s[0]
 
-    def solve(self, X, missing_mask):
+    def solve(self, X, missing_mask, X_original=None):
         X_init = X.copy()
 
         X_filled = X
@@ -160,7 +167,8 @@ class SoftImpute(Solver):
             converged = self._converged(
                 X_old=X_filled,
                 X_new=X_reconstruction,
-                missing_mask=missing_mask)
+                missing_mask=missing_mask,
+                X_original=X_original)
             X_filled[missing_mask] = X_reconstruction[missing_mask]
             if converged:
                 break

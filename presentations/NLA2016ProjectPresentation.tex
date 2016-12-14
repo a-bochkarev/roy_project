@@ -64,6 +64,7 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 	$$
 \end{itemize}
 \begin{block}{Optimization Task}
+\vspace{-0.5cm}
 \begin{align*}
 	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 	\text{rank} (X) \\
@@ -85,6 +86,7 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 %--------------------------------------------------------------------------------
 \begin{frame}{Convex Relaxation (Candes E. J., Recht B., 2009)}
 \begin{block}{Original Task}
+\vspace{-0.5cm}
 	\begin{align*}
 	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 	\text{rank} (X) \\
@@ -92,6 +94,7 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 	\end{align*}
 \end{block}
 \begin{block}{Relaxation}
+\vspace{-0.5cm}
 	\begin{align*}
 	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 	\| X \|_* \\
@@ -112,20 +115,22 @@ $$
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{SoftImpute (Hastie T., Tibshirani R., 2010)}
-	\begin{block}{Original Task}
+\begin{block}{Original Task}
+	\vspace{-0.5cm}
 		\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 		\text{rank} (X) \\
 		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
 		\end{align*}
-	\end{block}
-	\begin{block}{Relaxation}
-		\begin{align*}
+\end{block}
+\begin{block}{Relaxation}
+\vspace{-0.5cm}
+	\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 		\| X \|_* \\
 		\text{subject to} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta.
-		\end{align*}
-	\end{block}
+	\end{align*}
+\end{block}
 	\textbf{Motivation:}
 	
 		The method is the same as $SVT$ with $\delta = 0$. When $\delta>0$ the overfitting is less possible. 
