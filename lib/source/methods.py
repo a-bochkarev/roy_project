@@ -12,7 +12,7 @@ from SVP import *
 from SVT import *
 
 
-from SoftImpute import SoftImpute, BiScaler
+from SoftImpute import SoftImpute
 
 def get_completion(Omega, m, r, dims, method, 
                    max_iter=1e4, tol=1e-4, sparse_type='n', verbose=False):

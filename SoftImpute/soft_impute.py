@@ -88,7 +88,7 @@ class SoftImpute(Solver):
         #return np.sqrt(ssd) < self.convergence_threshold * old_norm
         new_observed_values = X_new[~missing_mask]
         orig_observed_values = X_original[~missing_mask]
-        difference = old_missing_values - new_missing_values
+        difference = orig_observed_values - new_observed_values
         ssd = np.sum(difference ** 2)
         orig_norm = np.sqrt((orig_observed_values ** 2).sum())
         return np.sqrt(ssd) < self.convergence_threshold * orig_norm
