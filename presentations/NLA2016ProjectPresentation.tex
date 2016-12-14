@@ -67,7 +67,7 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 \begin{align*}
 	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 	\text{rank} (X) \\
-	\text{subject to} \quad & P_{\Omega} (M) = P_{\Omega} (X).
+	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
 \end{align*}
 \end{block}
 \end{frame}
@@ -81,14 +81,54 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 		\item Takacs G. et al. Scalable collaborative filtering approaches for large recommender systems. 2009.
 		\item Vandereycken B. Low-rank matrix completion by Riemannian optimization. 2013.
 	\end{enumerate}
-\end{frame}%--------------------------------------------------------------------------------
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Convex Relaxation (Candes E. J., Recht B., 2009)}
+\begin{block}{Original Task}
+	\begin{align*}
+	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+	\text{rank} (X) \\
+	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
+	\end{align*}
+\end{block}
+\begin{block}{Relaxation}
+	\begin{align*}
+	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+	\| X \|_* \\
+	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
+	\end{align*}
+\end{block}
+\textbf{Motivation:}
+$$
+	\text{rank} (X) = |\{ i: \sigma_i(X) \neq 0\}|; \quad 
+	\| X \|_* = \sum_{i=1}^{k} \sigma_i(X).
+$$
+\end{frame}
+%--------------------------------------------------------------------------------
 \begin{frame}{SVP}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{SVT}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{SoftImpute}
+\begin{frame}{SoftImpute (Hastie T., Tibshirani R., 2010)}
+	\begin{block}{Original Task}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+		\text{rank} (X) \\
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
+		\end{align*}
+	\end{block}
+	\begin{block}{Relaxation}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+		\| X \|_* \\
+		\text{subject to} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta.
+		\end{align*}
+	\end{block}
+	\textbf{Motivation:}
+	
+		The method is the same as $SVT$ with $\delta = 0$. When $\delta>0$ the overfitting is less possible. 
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{RISMF}
