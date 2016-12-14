@@ -15,7 +15,7 @@ from SVT import *
 from SoftImpute import SoftImpute, BiScaler
 
 def get_completion(Omega, m, r, dims, method, 
-                   max_iter=1e4, tol=1e-4, sparse_type='n'):
+                   max_iter=1e4, tol=1e-4, sparse_type='n', verbose=False):
     """
     Matrix completion by given methods
     Input:
@@ -30,11 +30,12 @@ def get_completion(Omega, m, r, dims, method,
     """
     if method == 'SVT':
         return SVT(Omega, m, dims, max_iter, tol, sparse_type)
-    if method == 'SoftImpute':
-        solver = SoftImpute(max_rank=r, convergence_threshold=tol, verbose=False, 
+    elif method == 'SoftImpute':
+        solver = SoftImpute(max_rank=r, convergence_threshold=tol, verbose=verbose, 
             max_iters=max_iter)
         return solver.complete(Omega, m, dims)
     if method == 'SVP':
-        return SVP(Omega=Omega, vec_data=m, dims=dims, k=r, n_iter=max_iter, tol=tol)
+        return SVP(Omega=Omega, vec_data=m, dims=dims, k=r, 
+            n_iter=max_iter, tol=tol, tau=2.5)
     else:
         print 'This method is not implemented'
