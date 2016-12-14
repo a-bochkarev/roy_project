@@ -15,8 +15,9 @@ def SVP(Omega, vec_data, dims, k=5, tol=1e-3, maxtol=1000, tau=7.5, n_iter=100, 
         if rmse < tol:
             return X
         if rmse - prev_rmse > maxtol:
-            print 'Divergence! Try to decrease tau. Current tau is %s'%tau
-            return X
+            tau = tau - 1
+            t = 1
+            continue
         
         step = tau*reconstruct_matrix(vec_data - X_Omega, Omega, dims)
         X = X + step
