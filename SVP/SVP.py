@@ -17,6 +17,8 @@ def SVP(Omega, vec_data, dims, k=5, tol=1e-3, maxtol=1000, tau=7.5, n_iter=100, 
         if rmse - prev_rmse > maxtol:
             tau = tau - 1
             t = 1
+            X = np.zeros((dims[0], dims[1]))
+            prev_rmse = np.inf
             continue
         
         step = tau*reconstruct_matrix(vec_data - X_Omega, Omega, dims)
