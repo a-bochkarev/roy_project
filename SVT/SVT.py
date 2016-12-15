@@ -3,10 +3,10 @@ from scipy.sparse import csr_matrix, csc_matrix
 from scipy.sparse.linalg import svds, norm
 from data import *
 
-def SVT(omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
+def SVT(max_rank, omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
     delta = 1.2 * np.prod(dims) / omega.shape[0]
     tau = 5 * np.max(np.array(dims))
-    l = 5    
+    l = int(np.min(np.array(dims)) / 10) + 1    
     norm_of_data = np.linalg.norm(vec_data)
     mat_data = reconstruct_matrix(vec_data, omega, dims, sparse_type)
     _, second_norm, _ = svds(mat_data, 1)
@@ -15,6 +15,7 @@ def SVT(omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
     r = 0
     num_iter = 0
     min_size = np.min(np.array(dims)) - 1
+    #min_size = max_rank
     while num_iter < max_iter:
         s = np.min([r + 1, min_size])
         sigma = tau + 1
@@ -27,7 +28,7 @@ def SVT(omega, vec_data, dims, max_iter=1e4, tol=1e-4, sparse_type='n'):
             s = np.min([s+l, min_size])
             if s == min_size:
                 rpt_inside += 1
-        r = np.sum(S > tau)
+        r = np.min([np.sum(S > tau), max_rank])
         U = U[:, -r:]
         S = S[-r:] - tau
         V = V[-r:, :]
