@@ -31,7 +31,7 @@ def get_completion(Omega, m, r, dims, method,
     rank - rank of X
     """
     if method == 'SVT':
-        return SVT(Omega, m, dims, max_iter, tol, sparse_type)
+        return SVT(r, Omega, m, dims, max_iter, tol, sparse_type)
     elif method == 'SoftImpute':
         solver = SoftImpute(max_rank=r, convergence_threshold=tol, verbose=verbose, 
             max_iters=max_iter)
