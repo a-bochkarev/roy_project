@@ -37,7 +37,7 @@
 
 \begin{frame}{Problem Statement}
 \begin{block}{Task}	
-Given the amount of observed matrix entries to reconstruct low-rank matrix approximation.
+	Given the amount of observed matrix entries to reconstruct low-rank matrix approximation.
 \end{block}
 \vspace{0.3cm}
 \textbf{Applications:}
@@ -64,99 +64,201 @@ Given the amount of observed matrix entries to reconstruct low-rank matrix appro
 	$$
 \end{itemize}
 \begin{block}{Optimization Task}
-\vspace{-0.5cm}
-\begin{align*}
-	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-	\text{rank} (X) \\
-	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
-\end{align*}
+	\vspace{-0.5cm}
+	\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+		\text{rank} (X) \\
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+	\end{align*}
 \end{block}
+
+$NP$-hard problem!
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Related Works}
-	\begin{enumerate}
-		\item Candes E. J., Recht B. Exact matrix completion via convex optimization. 2009.
-		\item Cai J. F., Candes E. J., Shen Z. A singular value thresholding algorithm for matrix completion. 2010.
-		\item Mazumder R., Hastie T., Tibshirani R. Spectral regularization algorithms for learning large incomplete matrices. 2010.
-		\item Jain P., Meka R., Dhillon I. S. Guaranteed rank minimization via singular value projection. 2010.
-		\item Takacs G. et al. Scalable collaborative filtering approaches for large recommender systems. 2009.
-		\item Vandereycken B. Low-rank matrix completion by Riemannian optimization. 2013.
-	\end{enumerate}
+\begin{enumerate}
+	\item Candes E. J., Recht B. Exact matrix completion via convex optimization. 2009.
+	\item Cai J. F., Candes E. J., Shen Z. A singular value thresholding algorithm for matrix completion. 2010.
+	\item Mazumder R., Hastie T., Tibshirani R. Spectral regularization algorithms for learning large incomplete matrices. 2010.
+	\item Jain P., Meka R., Dhillon I. S. Guaranteed rank minimization via singular value projection. 2010.
+	\item Takacs G. et al. Scalable collaborative filtering approaches for large recommender systems. 2009.
+	\item Vandereycken B. Low-rank matrix completion by Riemannian optimization. 2013.
+\end{enumerate}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Convex Relaxation (Candes E. J., Recht B., 2009)}
-\begin{block}{Original Task}
-\vspace{-0.5cm}
-	\begin{align*}
-	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-	\text{rank} (X) \\
-	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
-	\end{align*}
-\end{block}
-\begin{block}{Relaxation}
-\vspace{-0.5cm}
-	\begin{align*}
-	\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-	\| X \|_* \\
-	\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
-	\end{align*}
-\end{block}
-\textbf{Motivation:}
-$$
-	\text{rank} (X) = |\{ i: \sigma_i(X) \neq 0\}|; \quad 
-	\| X \|_* = \sum_{i=1}^{k} \sigma_i(X).
-$$
-\end{frame}
-%--------------------------------------------------------------------------------
-\begin{frame}{SVP}
+\begin{frame}{Convex Relaxation (Candes E. J., Recht B., 2009)}  \begin{columns}[c]
+	\column{0.48\textwidth}
 	\begin{block}{Original Task}
 		\vspace{-0.5cm}
 		\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 		\text{rank} (X) \\
-		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
 		\end{align*}
 	\end{block}
+	
+	\column{0.48\textwidth}
 	\begin{block}{Relaxation}
 		\vspace{-0.5cm}
 		\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\| P_{\Omega} (X) - P_{\Omega} (M) \|_F \\
-		\text{subject to} \quad & \text{rank} (X) \leq k.
+		\| X \|_* \\
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
 		\end{align*}
 	\end{block}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Motivation:}
+$$
+	\text{rank} (X) = |\{ i: \sigma_i(X) \neq 0\}|;  \hspace{2.5cm} 
+	\| X \|_* = \sum_{i=1}^{k} \sigma_i(X).
+$$
+\textbf{Problems:}
+\begin{itemize}
+	\item expensive computations
+	\item only for small matrices
+\end{itemize}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{SVT}
-\end{frame}
-%--------------------------------------------------------------------------------
-\begin{frame}{SoftImpute (Hastie T., Tibshirani R., 2010)}
-\begin{block}{Original Task}
-	\vspace{-0.5cm}
+\begin{frame}{SVP (Jain P., Meka R., Dhillon I. S., 2010)}
+\begin{columns}[c]
+	\column{0.48\textwidth}
+	\begin{block}{Original Task}
+		\vspace{-0.5cm}
 		\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
 		\text{rank} (X) \\
-		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M).
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
 		\end{align*}
-\end{block}
-\begin{block}{Relaxation}
-\vspace{-0.5cm}
-	\begin{align*}
+	\end{block}
+	
+	\column{0.48\textwidth}
+	\begin{block}{Relaxation}
+		\vspace{-0.5cm}
+		\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\| X \|_* \\
-		\text{subject to} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta.
-	\end{align*}
-\end{block}
-	\textbf{Motivation:}
-	
-		The method is the same as $SVT$ with $\delta = 0$. When $\delta>0$ the overfitting is less possible. 
+		\| P_{\Omega} (X) - P_{\Omega} (M) \|_F^2 \\
+		\text{subject to} \quad & \text{rank} (X) \leq k
+		\end{align*}
+	\end{block}
+\end{columns}
+\vspace{0.3cm}
+\textbf{Steps}
+
+\begin{itemize}
+	\item gradient descent  for convex function;
+	\item $SVD$ projection on the $k$-dimensional space;
+\end{itemize}
+\textbf{Features:}
+\begin{itemize}
+	\item sensitive to given rank $k$;
+	\item guaranteed rank minimization for $RIP$-matrices.
+\end{itemize}
+
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{RISMF}
+\begin{frame}{SVT (Cai J. F., Candes E. J., Shen Z., 2010)}
+	\begin{columns}[c]
+		\column{0.48\textwidth}
+		\begin{block}{Original Task}
+			\vspace{-0.5cm}
+			\begin{align*}
+			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+			\text{rank} (X) \\
+			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+			\end{align*}
+		\end{block}
+		
+		\column{0.48\textwidth}
+		\begin{block}{Relaxation}
+			\vspace{-0.5cm}
+			\begin{align*}
+			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & \tau \| X \|_* + \| X \|_F^2 \\
+			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+			\end{align*}
+		\end{block}
+	\end{columns}
+	\vspace{0.3cm}
+	\textbf{Steps}
+	
+	\begin{itemize}
+		\item proximal gradient descent method;
+		\item soft-thresholding for singular values;
+	\end{itemize}
+	\textbf{Features:}
+	\begin{itemize}
+		\item sensitive to noise;
+		\item TO DO
+	\end{itemize}
 	
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Riemannian Optimization}
+\begin{frame}{SoftImpute (Hastie T., Tibshirani R., 2010)}
+	\begin{columns}[c]
+		\column{0.48\textwidth}
+		\begin{block}{Original Task}
+			\vspace{-0.5cm}
+			\begin{align*}
+			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+			\text{rank} (X) \\
+			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+			\end{align*}
+		\end{block}
+		
+		\column{0.48\textwidth}
+		\begin{block}{Relaxation}
+			\vspace{-0.5cm}
+			\begin{align*}
+			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+			\| X \|_* \\
+			\text{s. t.} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta
+			\end{align*}
+		\end{block}
+	\end{columns}
+\vspace{0.3cm}
+\textbf{Motivation:}
+	
+	The method is the same as $SVT$ with $\delta = 0$. When $\delta>0$ the overfitting is less possible.
+	
+\vspace{0.3cm}
+\textbf{Steps:}
+\begin{itemize}
+	\item proximal gradient descent method;
+	\item soft-thresholded $SVD$;
+	\item warm starts.
+\end{itemize}
+
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{RIMSF}
+	
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Numerical Experiments}
+\begin{itemize}
+	\item Synthetic data
+	
+	Low-rank matrices with random noise.
+	\item Low-rank images
+	
+	Visual demonstration of algorithms.
+	\item Assessment dataset
+	
+	Real dataset for collaborating filtering.
+\end{itemize}
+
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Synthetic Data}
+
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Images}
+	
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Assessment data}
+	
 \end{frame}
 %--------------------------------------------------------------------------------
 
