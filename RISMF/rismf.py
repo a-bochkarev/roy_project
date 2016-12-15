@@ -1,9 +1,12 @@
 import numpy as np
 
-def RISMF(S,M,sizeM,learningRate = 0.1, regularizedFactor = 0.1 , K = 1) :
+# input : S the sampling operator, M the list of values corresponding to S
+def RISMF(S,M,sizeM,learningRate = 0.1, regularizedFactor = 0.1 , K = 1, percentageTrainingSet = 0.1, nbIterMax = 100) :
     #separate the sampling operator into training (W1) and validation (W2) set
-    W1 = S[0:9*len(S)/10,:]
-    W2 = S[9*len(S)/10:len(S),:]
+#     W1 = S[0:(1-percentageTrainingSet)*len(S),:]
+#     W2 = S[(1-percentageTrainingSet)*len(S):len(S),:]
+    W1 = S
+    W2 = []
     #initialize randomly P and Q in interval [-0.01,0.01]
     P = np.random.rand(sizeM[0], K)/50 - 0.01
     Q = np.random.rand(K,sizeM[1])/50 - 0.01
@@ -16,7 +19,8 @@ def RISMF(S,M,sizeM,learningRate = 0.1, regularizedFactor = 0.1 , K = 1) :
     #initialize variables for stopping algorithm
     notDecreaseRMSE = 0
     cond = True
-    while(cond) :
+    nbIter = 0
+    while(cond and nbIter < nbIterMax) :
         k=0
         for(u,i) in W1 :
             e = M[k]-np.dot(P[u,:],Q[:,i])
@@ -27,7 +31,7 @@ def RISMF(S,M,sizeM,learningRate = 0.1, regularizedFactor = 0.1 , K = 1) :
             Q[:,i] = Q[:,i] - learningRate*gradEq
             k=k+1
         #compare RMSE of the validation set W2
-        currentRMSE = RMSE(M,W1,W2,P,Q)
+        currentRMSE = RMSE(M,W2,W1,P,Q,regularizedFactor)
         if(currentRMSE<minRMSE) :
             minRMSE = currentRMSE
             Popt = P
@@ -36,15 +40,15 @@ def RISMF(S,M,sizeM,learningRate = 0.1, regularizedFactor = 0.1 , K = 1) :
         else :
             notDecreaseRMSE = notDecreaseRMSE + 1
         cond = notDecreaseRMSE!=2
-    return  np.dot(Popt,Qopt)
+        nbIter = nbIter + 1
+    res = np.dot(Popt,Qopt)
+    return res #, Popt, Qopt, minRMSE
 
-def RMSE(M,W1,W2,P,Q) :
+def RMSE(M,W1,W2,P,Q,regularizedFactor) :
     sse = 0
     size = len(W1)
-    for (i,j) in W2 :
-        sumTemp = 0
-        for k in range(P.shape[1]) :
-            sumTemp = sumTemp + P[i,k]*Q[k,j]
-            sse = sse + (M[size]-sumTemp)**2
+    for (u,i) in W2 :
+        e = M[size]-np.dot(P[u,:],Q[:,i])
+        sse = sse + (0.5)*(e**2 + regularizedFactor*np.dot(P[u,:],P[u,:].T)  + regularizedFactor*np.dot(Q[:,i].T,Q[:,i]))
         size = size + 1
     return np.sqrt(sse/size)

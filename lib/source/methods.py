@@ -6,10 +6,12 @@ from scipy.sparse.linalg import svds, norm, eigs
 sys.path.append('./SoftImpute/')
 sys.path.append('./SVT/')
 sys.path.append('./SVP/')
+sys.path.append('./RISMF/')
 sys.path.append('./lib/source/')
 from data import *
 from SVP import *
 from SVT import *
+from RISMF import *
 
 
 from SoftImpute import SoftImpute
@@ -37,5 +39,7 @@ def get_completion(Omega, m, r, dims, method,
     if method == 'SVP':
         return SVP(Omega=Omega, vec_data=m, dims=dims, k=r, 
             n_iter=max_iter, tol=tol, tau=2.5)
+    elif method == 'RISMF' :
+        return  RISMF(Omega, m, dims ,learningRate = 0.1, regularizedFactor = 0.1 , K = 1, percentageTrainingSet = 0.1, nbIterMax = 100)
     else:
         print 'This method is not implemented'
