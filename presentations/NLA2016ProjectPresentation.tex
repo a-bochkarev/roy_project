@@ -176,8 +176,8 @@
 		\STATE $Y := \eta P_{\Omega}(M)$;
 		\REPEAT
 		\STATE $X := S_{\lambda} (Y)$;
-		\STATE $P_{\Omega}\left(Y\right) := P_{\Omega}\left(Y\right)+\eta P_\Omega \left(M - X\right)$;
-		\UNTIL {$\| P_{\Omega}(X - M)\|_F/\| P_{\Omega}(M) \|_F > \varepsilon$}
+		\STATE $P_{\Omega}\left(Y\right) := P_{\Omega}\left(Y\right) - \eta \left(P_\Omega (X) - P_\Omega(M)\right)$;
+		\UNTIL {$\| P_{\Omega}(M) - P_\Omega(X)\|_F/\| P_{\Omega}(M) \|_F > \varepsilon$}
 	\end{algorithmic}
 	\vspace{0.3cm}
 $$
