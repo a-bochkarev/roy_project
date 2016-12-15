@@ -24,7 +24,7 @@
 {Low-Rank Matrix Completion Project}
 \author[ROY team]{\\
 				{\small \textbf{Authors:} Artem Bochkarev, Roman Isachenko \\
-					Ilya Zharikov, Anne-Laure Ducroucq}}
+					Ilya Zharikov, Anne-Laure Ducrocq}}
 \institute[SkolTech]{Skolkovo Institute of Science and Technology \\
 	Numerical Linear Algebra course 
     \vspace{0.3cm}
@@ -100,7 +100,6 @@
 		\end{align*}
 	\end{block}
 	
-	
 	\begin{block}{RISMF}
 		\vspace{-0.3cm}
 		\begin{align*}
@@ -153,11 +152,11 @@
 \begin{algorithmic}[1] 
 	\REQUIRE $\Omega, P_\Omega(M), k, \eta$; 
 	\ENSURE $X$;
-	\STATE $X:= 0$
+	\STATE $X:= 0$;
 	\REPEAT
-	\STATE $X := X - \eta P_{\Omega}^{-1}\left(P_{\Omega}(X) - P_{\Omega}(M)\right)$
-	\STATE {$U, \Sigma, V := SVD(X)$}
-	\STATE $X := U_k \Sigma_k V_k^T$
+	\STATE $X := X - \eta P_{\Omega}^{-1}\left(P_{\Omega}(X) - P_{\Omega}(M)\right)$;
+	\STATE {$U, \Sigma, V := SVD(X)$};
+	\STATE $X := U_k \Sigma_k V_k^T$;
 	\UNTIL {$\|P_{\Omega}(M) - P_{\Omega}(X)\|_F / \|P_{\Omega}(X)\|_F > \varepsilon$}
 \end{algorithmic}
 \end{frame}
@@ -174,10 +173,10 @@
 	\begin{algorithmic}[1]
 		\REQUIRE $\Omega, M, \varepsilon, \lambda, \eta$;
 		\ENSURE $X$;
-		\STATE $Y := \eta P_{\Omega}(M)$
+		\STATE $Y := \eta P_{\Omega}(M)$;
 		\REPEAT
-		\STATE $X := S_{\lambda} (Y)$
-		\STATE $P_{\Omega}\left(Y\right) := P_{\Omega}\left(Y\right)+\eta\left(M - X\right)$
+		\STATE $X := S_{\lambda} (Y)$;
+		\STATE $P_{\Omega}\left(Y\right) := P_{\Omega}\left(Y\right)+\eta P_\Omega \left(M - X\right)$;
 		\UNTIL {$\| P_{\Omega}(X - M)\|_F/\| P_{\Omega}(M) \|_F > \varepsilon$}
 	\end{algorithmic}
 	\vspace{0.3cm}
@@ -201,12 +200,15 @@ $$
 	\STATE $X := 0$;
 	\FOR{$i=1,\dots,k$}
 	\REPEAT
-	\STATE $X := S_{\lambda_i} (P_\Omega(M) + P_\Omega^\bot (X))$
+	\STATE $X := S_{\lambda_i} (P_\Omega(M) + P_\Omega^\bot (X))$;
 	
 	\UNTIL{$\|P_{\Omega}(M) - P_{\Omega}(X)\|_F / \|P_\Omega(M)\|_F > \varepsilon$}
 	\STATE {$X_{\lambda_i} := X$};
 	\ENDFOR
 \end{algorithmic}
+$$
+	P_{\Omega}^\bot (M) = M - P_{\Omega} (M).
+$$
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{RIMSF}
@@ -224,7 +226,7 @@ $$
 	\STATE {Initialization of $U, V$ with small random numbers};
 	\REPEAT
 	\FOR {$(i, j) \in \Omega$}
-	\STATE {Gradient step for $U[i, :]$ and $V[:, j]$ by regularized error function}
+	\STATE {Gradient step for $U[i, :]$ and $V[:, j]$ by regularized error function};
 	\ENDFOR
 	\UNTIL{$\|P_{\Omega}(M) - P_{\Omega}(UV)\|_F / \|P_\Omega(M)\|_F > \varepsilon$}
 \end{algorithmic}
@@ -246,11 +248,30 @@ $$
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic Data}
-
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{./../results/synthetic/exper_1/synthetic_nsamp_rmse.png}
+	\label{heat_map}
+\end{figure}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Synthetic Data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{./../results/synthetic/exper_2/synthetic_rank_rmse.png}
+		\label{heat_map}
+	\end{figure}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Synthetic Data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{./../results/synthetic/exper_3/synthetic_size_rmse.png}
+		\label{heat_map}
+	\end{figure}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Images}
-	
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Assessment data}

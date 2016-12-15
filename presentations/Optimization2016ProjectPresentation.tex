@@ -19,8 +19,8 @@
 \title[\hbox to 56mm{Matrix Completion  \hfill\insertframenumber\,/\,\inserttotalframenumber}]
 {Low-Rank Matrix Completion project}
 \author[ROY team]{\\
-				{\small \textbf{Authors:} Bochkarev Artem, Isachenko Roman \\
-					Zharikov Ilya, Ducroucq Anne-Laure}}
+				{\small \textbf{Authors:} Artem Bochkarev, Roman Isachenko \\
+					 Ilya Zharikov, Anne-Laure Ducrocq}}
 \institute[SkolTech]{Skolkovo Institute of Science and Technology \\
 	Methods of Optimization course 
     \vspace{0.3cm}
@@ -252,7 +252,7 @@ $$
 	\textbf{Steps:}
 	\begin{itemize}
 		\item incremental gradient descent;
-		\item updating $U$ and $V$ in rotation.
+		\item updating $U$ and $V$ simultaneously.
 	\end{itemize}	
 	\vspace{0.3cm}
 	\textbf{Features:}
@@ -279,7 +279,27 @@ $$
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic Data}
-
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{./../results/synthetic/exper_1/synthetic_nsamp_rmse.png}
+		\label{heat_map}
+	\end{figure}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Synthetic Data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{./../results/synthetic/exper_2/synthetic_rank_rmse.png}
+		\label{heat_map}
+	\end{figure}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Synthetic Data}
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{./../results/synthetic/exper_3/synthetic_size_rmse.png}
+		\label{heat_map}
+	\end{figure}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Images}
