@@ -1,0 +1,24 @@
+Image: 7_pattern1. Size: 300x500. Rank: 7. Sample fraction: 0.10.
+SVT. Rank: 7. RMSE: 0.01162. Time: 1 min 24 sec.
+SVP. Rank: 7. RMSE: 0.00262. Time: 0 min 3 sec.
+ SI. Rank: 300. RMSE: 0.04935. Time: 0 min 4 sec.
+
+Image: 7_pattern2. Size: 1000x820. Rank: 7. Sample fraction: 0.10.
+SVT. Rank: 7. RMSE: 0.00311. Time: 2 min 42 sec.
+SVP. Rank: 7. RMSE: 0.00222. Time: 0 min 11 sec.
+ SI. Rank: 820. RMSE: 0.03745. Time: 0 min 23 sec.
+
+Image: 7_pattern3. Size: 1000x1000. Rank: 7. Sample fraction: 0.10.
+SVT. Rank: 7. RMSE: 0.00106. Time: 1 min 50 sec.
+SVP. Rank: 7. RMSE: 0.00124. Time: 0 min 8 sec.
+ SI. Rank: 1000. RMSE: 0.03898. Time: 0 min 26 sec.
+
+Image: 7_pattern4. Size: 1000x1000. Rank: 7. Sample fraction: 0.10.
+SVT. Rank: 7. RMSE: 0.00076. Time: 2 min 15 sec.
+SVP. Rank: 7. RMSE: 0.00084. Time: 0 min 8 sec.
+ SI. Rank: 1000. RMSE: 0.02533. Time: 0 min 26 sec.
+
+Image: 7_pattern5. Size: 600x600. Rank: 7. Sample fraction: 0.10.
+SVT. Rank: 7. RMSE: 0.00134. Time: 0 min 56 sec.
+SVP. Rank: 7. RMSE: 0.00148. Time: 0 min 4 sec.
+ SI. Rank: 600. RMSE: 0.04184. Time: 0 min 10 sec.
