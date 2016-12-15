@@ -10,4 +10,4 @@ SkolTech 2016
 - Bochkarev Artem
 - Isachenko Roman
 - Zharikov Ilya
-- Anne-Laure Ducrouq
+- Anne-Laure Ducrocq
