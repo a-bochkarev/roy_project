@@ -1,0 +1,26 @@
+Tolerance: 1e-3. Max_iter: 300.
+
+Image: 11_pattern1. Size: 300x500. Rank: 11. Sample fraction: 0.05.
+SVT. Rank: 3. RMSE: 0.26538. Time: 0 min 30 sec.
+SVP. Rank: 11. RMSE: 0.46427. Time: 0 min 4 sec.
+ SI. Rank: 300. RMSE: 0.34716. Time: 0 min 1 sec.
+
+Image: 11_pattern2. Size: 1000x820. Rank: 11. Sample fraction: 0.05.
+SVT. Rank: 25. RMSE: 0.07301. Time: 1 min 45 sec.
+SVP. Rank: 11. RMSE: 0.13431. Time: 0 min 25 sec.
+ SI. Rank: 820. RMSE: 0.07653. Time: 0 min 6 sec.
+
+Image: 11_pattern3. Size: 1000x1000. Rank: 11. Sample fraction: 0.05.
+SVT. Rank: 11. RMSE: 0.07940. Time: 8 min 9 sec.
+SVP. Rank: 11. RMSE: 0.03149. Time: 0 min 29 sec.
+ SI. Rank: 1000. RMSE: 0.09262. Time: 0 min 7 sec.
+
+Image: 11_pattern4. Size: 1000x1000. Rank: 11. Sample fraction: 0.05.
+SVT. Rank: 11. RMSE: 0.04690. Time: 1 min 53 sec.
+SVP. Rank: 11. RMSE: 0.07546. Time: 0 min 30 sec.
+ SI. Rank: 1000. RMSE: 0.06153. Time: 0 min 8 sec.
+
+Image: 11_pattern5. Size: 600x600. Rank: 11. Sample fraction: 0.05.
+SVT. Rank: 46. RMSE: 0.15726. Time: 1 min 39 sec.
+SVP. Rank: 11. RMSE: 0.29424. Time: 0 min 10 sec.
+ SI. Rank: 600. RMSE: 0.20221. Time: 0 min 3 sec.

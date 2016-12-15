@@ -1,3 +1,5 @@
+Tolerance: 1e-3. Max_iter: 1000.
+
 Image: 7_pattern1. Size: 300x500. Rank: 7. Sample fraction: 0.10.
 SVT. Rank: 7. RMSE: 0.01162. Time: 1 min 24 sec.
 SVP. Rank: 7. RMSE: 0.00262. Time: 0 min 3 sec.
