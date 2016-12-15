@@ -12,10 +12,10 @@ def SVP(Omega, vec_data, dims, k=5, tol=1e-3, maxtol=1000, tau=7.5, n_iter=100, 
         X_Omega = get_sampling_vector(X, Omega)
 
         rmse = RMSE(X_Omega, vec_data)
-        if np.linalg.norm(X_omega - vec_data) < tol * np.linalg.norm(vec_data): 
+        if np.linalg.norm(X_Omega - vec_data) < tol * np.linalg.norm(vec_data): 
             return X
         if rmse - prev_rmse > maxtol:
-            tau = tau - 1
+            tau = tau*0.7
             t = 1
             X = np.zeros((dims[0], dims[1]))
             prev_rmse = np.inf

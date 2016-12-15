@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse import csr_matrix
+import pandas as pd
 
 def sampling_operator(nsamp, dims, seed=1):
     """
@@ -89,7 +90,7 @@ def reconstruct_matrix(vec, omega, dims, sparse_type='n'):
         
     return data
 
-def get_data(data_type, rank, dims, noise='n', sigma=1e-3, seed=1):
+def get_data(data_type, rank, dims, noise='n', sigma=1e-3, seed=1, row_num=2000):
     """
     Get data
     Input:
@@ -102,11 +103,17 @@ def get_data(data_type, rank, dims, noise='n', sigma=1e-3, seed=1):
                 Noise from N(mean=0, variance=sigma).
         sigma : variance of the noise (default 1e-3)
         seed :set random seed (default 1)
+        row_num : Number of rows from Jester dataset
     Output:
     M : matrix
     """ 
     if data_type == 'synthetic':
         M = get_matrix(rank, dims, noise, sigma, seed)
+    if data_type == 'real':
+        M = pd.read_excel('./data/jester-data-2.xls', header=None, na_values=99)
+        M = M.fillna(0)
+        M = np.array(M)[:, 1:]
+        M = M[:row_num, :]
     else:
         print 'Not yet!'
         return -1
