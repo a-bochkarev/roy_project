@@ -1,8 +1,7 @@
 import numpy as np
 
 # input : S the sampling operator, M the list of values corresponding to S
-def RISMF(S,M,sizeM,learningRate = 0.01, regularizedFactor = 0.01 , K = 1, nbIterMax = 20, tol=1e-3) :
-    print 'ok'
+def rismf(S,M,sizeM,learningRate = 0.01, regularizedFactor = 0.01 , K = 5, nbIterMax = 20, tol=1e-3) :
     #separate the sampling operator into training (W1) and validation (W2) set
 #     W1 = S[0:(1-percentageTrainingSet)*len(S),:]
 #     W2 = S[(1-percentageTrainingSet)*len(S):len(S),:]

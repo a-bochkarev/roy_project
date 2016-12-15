@@ -40,6 +40,6 @@ def get_completion(Omega, m, r, dims, method,
         return SVP(Omega=Omega, vec_data=m, dims=dims, k=r, 
             n_iter=max_iter, tol=tol, tau=2.5)
     elif method == 'RISMF' :
-        return  RISMF(Omega, m, dims ,learningRate = 0.1, regularizedFactor = 0.1 , K = 1, percentageTrainingSet = 0.1, nbIterMax = 100)
+        return  rismf(Omega, m, dims , K = r)
     else:
         print 'This method is not implemented'
