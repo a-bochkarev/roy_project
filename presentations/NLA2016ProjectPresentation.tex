@@ -211,15 +211,23 @@ $$
 %--------------------------------------------------------------------------------
 \begin{frame}{RIMSF}
 
-\begin{block}{RISMF}
+\begin{block}{Relaxation}
 	\vspace{-0.3cm}
 	\begin{align*}
-	\mathop{\text{minimize}}\limits_{\substack{	U \in \mathbb{R}^{n \times k} \\ V \in \mathbb{R}^{k \times m}}} \quad \| U \|^2_F + \| V \|^2_F, \quad
-	\text{subject to} \quad P_{\Omega} (UV) = P_{\Omega} (M) 
+	\mathop{\text{minimize}}\limits_{\substack{	U \in \mathbb{R}^{n \times k} \\ V \in \mathbb{R}^{k \times m}}} \quad \|P_{\Omega} (UV) - P_{\Omega} (M)\|_F^2 + \lambda \left(\| U \|^2_F + \| V \|^2_F\right)
 	\end{align*}
 \end{block}
-	\vspace{0.3cm}
 	
+\begin{algorithmic}[1]
+	\REQUIRE $M, \Omega, \varepsilon, \lambda, \eta$;
+	\ENSURE {$U, V$};
+	\STATE {Initialization of $U, V$ with small random numbers};
+	\REPEAT
+	\FOR {$(i, j) \in \Omega$}
+	\STATE {Gradient step for $U[i, :]$ and $V[:, j]$ by regularized error function}
+	\ENDFOR
+	\UNTIL{$\|P_{\Omega}(M) - P_{\Omega}(UV)\|_F / \|P_\Omega(M)\|_F > \varepsilon$}
+\end{algorithmic}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Numerical Experiments}
