@@ -109,7 +109,7 @@ def get_data(data_type, rank, dims, noise='n', sigma=1e-3, seed=1, row_num=2000)
     """ 
     if data_type == 'synthetic':
         M = get_matrix(rank, dims, noise, sigma, seed)
-    if data_type == 'real':
+    elif data_type == 'real':
         M = pd.read_excel('./data/jester-data-2.xls', header=None, na_values=99)
         M = M.fillna(0)
         M = np.array(M)[:, 1:]
