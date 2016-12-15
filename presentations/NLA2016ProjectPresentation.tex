@@ -12,15 +12,19 @@
 \usepackage{enumerate}
 \usepackage{epstopdf}
 \usepackage{multicol}
-\usetheme{Boadilla}%{Singapore}%{Warsaw}%{Warsaw}%{Darmstadt}
-\usecolortheme{beaver}
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+\def\algorithmicrequire{\textbf{Input:}}
+\def\algorithmicensure{\textbf{Output:}}
+\usetheme{Copenhagen}%{Singapore}%{Warsaw}%{Warsaw}%{Darmstadt}
+\usecolortheme{whale}
 %\definecolor{beamer@blendedblue}{RGB}{15,120,80}
 %----------------------------------------------------------------------------------------------------------
 \title[\hbox to 56mm{Matrix Completion  \hfill\insertframenumber\,/\,\inserttotalframenumber}]
-{Low-Rank Matrix Completion project}
+{Low-Rank Matrix Completion Project}
 \author[ROY team]{\\
-				{\small \textbf{Authors:} Bochkarev Artem, Isachenko Roman \\
-					Zharikov Ilya, Ducrouq Anne-Laure}}
+				{\small \textbf{Authors:} Artem Bochkarev, Roman Isachenko \\
+					Ilya Zharikov, Anne-Laure Ducroucq}}
 \institute[SkolTech]{Skolkovo Institute of Science and Technology \\
 	Numerical Linear Algebra course 
     \vspace{0.3cm}
@@ -34,7 +38,6 @@
 \titlepage
 \end{frame}
 %--------------------------------------------------------------------------------
-
 \begin{frame}{Problem Statement}
 \begin{block}{Task}	
 	Given the amount of observed matrix entries to reconstruct low-rank matrix approximation.
@@ -63,7 +66,7 @@
 	\end{cases}
 	$$
 \end{itemize}
-\begin{block}{Optimization Task}
+\begin{block}{Optimization Task ($NP$-hard)}
 	\vspace{-0.5cm}
 	\begin{align*}
 		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
@@ -72,7 +75,57 @@
 	\end{align*}
 \end{block}
 
-$NP$-hard problem!
+\end{frame}
+
+%--------------------------------------------------------------------------------
+\begin{frame}{Relaxations}
+	\begin{block}{Original Task ($NP$-hard)}
+		\vspace{-0.2cm}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad 
+		\text{rank} (X), \quad 
+		\text{subject to} \quad P_{\Omega} (X) = P_{\Omega} (M)
+		\end{align*}
+	\end{block}
+	\vspace{0.3cm}
+	\footnotesize
+	\begin{columns}[c]
+	\column{0.5\textwidth}
+	\begin{block}{SVP}
+		\vspace{-0.3cm}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+		\| P_{\Omega} (X) - P_{\Omega} (M) \|_F^2 \\
+		\text{subject to} \quad & \text{rank} (X) \leq k
+		\end{align*}
+	\end{block}
+	
+	
+	\begin{block}{RISMF}
+		\vspace{-0.3cm}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{\substack{	U \in \mathbb{R}^{n \times k} \\ V \in \mathbb{R}^{k \times m}}} \quad & \| U \|^2_F + \| V \|^2_F \\
+		\text{subject to} \quad &  P_{\Omega} (UV) = P_{\Omega} (M) 
+		\end{align*}
+	\end{block}
+	\column{0.5\textwidth}	
+	\begin{block}{SVT}
+		\vspace{-0.3cm}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & \tau \| X \|_* + \| X \|_F^2 \\
+		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+		\end{align*}
+	\end{block}
+	\begin{block}{SoftImpute}
+		\vspace{-0.3cm}
+		\begin{align*}
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
+		\| X \|_* \\
+		\text{subject to} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta
+		\end{align*}
+	\end{block}
+\end{columns}
+	
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Related Works}
@@ -86,151 +139,86 @@ $NP$-hard problem!
 \end{enumerate}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Convex Relaxation (Candes E. J., Recht B., 2009)}  \begin{columns}[c]
-	\column{0.48\textwidth}
-	\begin{block}{Original Task}
-		\vspace{-0.5cm}
-		\begin{align*}
-		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\text{rank} (X) \\
-		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
-		\end{align*}
-	\end{block}
-	
-	\column{0.48\textwidth}
-	\begin{block}{Relaxation}
-		\vspace{-0.5cm}
-		\begin{align*}
-		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\| X \|_* \\
-		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
-		\end{align*}
-	\end{block}
-\end{columns}
-\vspace{0.3cm}
-\textbf{Motivation:}
-$$
-	\text{rank} (X) = |\{ i: \sigma_i(X) \neq 0\}|;  \hspace{2.5cm} 
-	\| X \|_* = \sum_{i=1}^{k} \sigma_i(X).
-$$
-\textbf{Problems:}
-\begin{itemize}
-	\item expensive computations
-	\item only for small matrices
-\end{itemize}
-\end{frame}
-%--------------------------------------------------------------------------------
 \begin{frame}{SVP (Jain P., Meka R., Dhillon I. S., 2010)}
-\begin{columns}[c]
-	\column{0.48\textwidth}
-	\begin{block}{Original Task}
-		\vspace{-0.5cm}
-		\begin{align*}
-		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\text{rank} (X) \\
-		\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
-		\end{align*}
-	\end{block}
-	
-	\column{0.48\textwidth}
+
 	\begin{block}{Relaxation}
 		\vspace{-0.5cm}
 		\begin{align*}
-		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-		\| P_{\Omega} (X) - P_{\Omega} (M) \|_F^2 \\
-		\text{subject to} \quad & \text{rank} (X) \leq k
+		\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad 
+		\| P_{\Omega} (X) - P_{\Omega} (M) \|_F^2, \quad
+		\text{subject to} \quad \text{rank} (X) \leq k
 		\end{align*}
 	\end{block}
-\end{columns}
 \vspace{0.3cm}
-\textbf{Steps}
-
-\begin{itemize}
-	\item gradient descent  for convex function;
-	\item $SVD$ projection on the $k$-dimensional space;
-\end{itemize}
-\textbf{Features:}
-\begin{itemize}
-	\item sensitive to given rank $k$;
-	\item guaranteed rank minimization for $RIP$-matrices.
-\end{itemize}
-
+\begin{algorithmic}[1] 
+	\REQUIRE $\Omega, P_\Omega(M), k, \eta$; 
+	\ENSURE $X$;
+	\STATE $X:= 0$
+	\REPEAT
+	\STATE $X := X - \eta P_{\Omega}^{-1}\left(P_{\Omega}(X) - P_{\Omega}(M)\right)$
+	\STATE {$U, \Sigma, V := SVD(X)$}
+	\STATE $X := U_k \Sigma_k V_k^T$
+	\UNTIL {$\|P_{\Omega}(M) - P_{\Omega}(X)\|_F / \|P_{\Omega}(X)\|_F > \varepsilon$}
+\end{algorithmic}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{SVT (Cai J. F., Candes E. J., Shen Z., 2010)}
-	\begin{columns}[c]
-		\column{0.48\textwidth}
-		\begin{block}{Original Task}
-			\vspace{-0.5cm}
-			\begin{align*}
-			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-			\text{rank} (X) \\
-			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
-			\end{align*}
-		\end{block}
-		
-		\column{0.48\textwidth}
 		\begin{block}{Relaxation}
 			\vspace{-0.5cm}
 			\begin{align*}
-			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & \tau \| X \|_* + \| X \|_F^2 \\
-			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad \lambda \| X \|_* + \| X \|_F^2, \quad
+			\text{subject to} \quad P_{\Omega} (X) = P_{\Omega} (M)
 			\end{align*}
 		\end{block}
-	\end{columns}
 	\vspace{0.3cm}
-	\textbf{Steps}
-	
-	\begin{itemize}
-		\item proximal gradient descent method;
-		\item soft-thresholding for singular values;
-	\end{itemize}
-	\textbf{Features:}
-	\begin{itemize}
-		\item sensitive to noise;
-		\item TO DO
-	\end{itemize}
-	
+	\begin{algorithmic}[1]
+		\REQUIRE $\Omega, M, \varepsilon, \lambda, \eta$;
+		\ENSURE $X$;
+		\STATE $Y := \eta P_{\Omega}(M)$
+		\REPEAT
+		\STATE $X := S_{\lambda} (Y)$
+		\STATE $P_{\Omega}\left(Y\right) := P_{\Omega}\left(Y\right)+\eta\left(M - X\right)$
+		\UNTIL {$\| P_{\Omega}(X - M)\|_F/\| P_{\Omega}(M) \|_F > \varepsilon$}
+	\end{algorithmic}
+	\vspace{0.3cm}
+$$
+S_{\lambda} (W) = U [D - \lambda I]_+ V^*; \quad U, D, V := SVD(W)
+$$
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{SoftImpute (Hastie T., Tibshirani R., 2010)}
-	\begin{columns}[c]
-		\column{0.48\textwidth}
-		\begin{block}{Original Task}
+		\begin{block}{Lagrangian Relaxation}
 			\vspace{-0.5cm}
 			\begin{align*}
 			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-			\text{rank} (X) \\
-			\text{subject to} \quad & P_{\Omega} (X) = P_{\Omega} (M)
+			\lambda \| X \|_* + \|P_\Omega(X) - P_\Omega(M) \|_F^2
 			\end{align*}
 		\end{block}
-		
-		\column{0.48\textwidth}
-		\begin{block}{Relaxation}
-			\vspace{-0.5cm}
-			\begin{align*}
-			\mathop{\text{minimize}}\limits_{X \in \mathbb{R}^{n \times m}} \quad & 
-			\| X \|_* \\
-			\text{s. t.} \quad & \| P_{\Omega} (X) - P_{\Omega} (M) \|_F \leq \delta
-			\end{align*}
-		\end{block}
-	\end{columns}
-\vspace{0.3cm}
-\textbf{Motivation:}
-	
-	The method is the same as $SVT$ with $\delta = 0$. When $\delta>0$ the overfitting is less possible.
-	
-\vspace{0.3cm}
-\textbf{Steps:}
-\begin{itemize}
-	\item proximal gradient descent method;
-	\item soft-thresholded $SVD$;
-	\item warm starts.
-\end{itemize}
 
+\begin{algorithmic}[1]
+	\REQUIRE $M, \Omega, \varepsilon, \lambda_1 > \dots > \lambda_k$;
+	\ENSURE sequence $X_{\lambda_1}, \dots, X_{\lambda_k}$;
+	\STATE $X := 0$;
+	\FOR{$i=1,\dots,k$}
+	\REPEAT
+	\STATE $X := S_{\lambda_i} (P_\Omega(M) + P_\Omega^\bot (X))$
+	
+	\UNTIL{$\|P_{\Omega}(M) - P_{\Omega}(X)\|_F / \|P_\Omega(M)\|_F > \varepsilon$}
+	\STATE {$X_{\lambda_i} := X$};
+	\ENDFOR
+\end{algorithmic}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{RIMSF}
+
+\begin{block}{RISMF}
+	\vspace{-0.3cm}
+	\begin{align*}
+	\mathop{\text{minimize}}\limits_{\substack{	U \in \mathbb{R}^{n \times k} \\ V \in \mathbb{R}^{k \times m}}} \quad \| U \|^2_F + \| V \|^2_F, \quad
+	\text{subject to} \quad P_{\Omega} (UV) = P_{\Omega} (M) 
+	\end{align*}
+\end{block}
+	\vspace{0.3cm}
 	
 \end{frame}
 %--------------------------------------------------------------------------------
